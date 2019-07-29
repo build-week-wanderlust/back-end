@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +31,25 @@ public class ExperienceController {
     @Autowired
     ExperienceService experienceService;
 
+    // http://localhost:2019/experiences/experiences
+
+    // http://localhost:2019/experiences/experiences/?page=0&size=5
+    // http://localhost:2019/experiences/experiences/?sort=state
     @GetMapping(value = "/experiences",
             produces = {"application/json"})
-    public ResponseEntity<?> listAllExperiences(HttpServletRequest request) {
+    public ResponseEntity<?> listAllExperiences(
+            @PageableDefault(page = 0,
+                    size = 5)
+                    Pageable pageable, HttpServletRequest request) {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
+
+        List<Experience> allExperiences = experienceService.findAll(pageable);
+        return new ResponseEntity<>(allExperiences, HttpStatus.OK);
+    }
+
+    // get all experiences
+    @GetMapping(value = "/allexperiences")
+    public ResponseEntity<?> reallyListAllExperiences() {
 
         List<Experience> allExperiences = experienceService.findAll();
         return new ResponseEntity<>(allExperiences, HttpStatus.OK);
@@ -100,8 +117,8 @@ public class ExperienceController {
 
     @DeleteMapping("/experience/{id}")
     public ResponseEntity<?> deleteExperienceById(HttpServletRequest request,
-                                             @PathVariable
-                                                     long id) {
+                                                  @PathVariable
+                                                          long id) {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
 
         experienceService.delete(id);

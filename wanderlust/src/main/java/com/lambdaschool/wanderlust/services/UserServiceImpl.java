@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
 
         for (Experience e: user.getExperiences())
         {
-            newUser.getExperiences().add(new Experience(e.getTitle(), e.getDescription(), e.getCity(), e.getState(), e.getPrice(), newUser));
+            newUser.getExperiences().add(new Experience(e.getTitle(), e.getDescription(), e.getCity(), e.getState(), e.getPrice(), e.getTriptype(), newUser));
         }
 
         return userrepos.save(newUser);
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
                 {
                     for (Experience e : user.getExperiences())
                     {
-                        currentUser.getExperiences().add(new Experience(e.getTitle(), e.getDescription(), e.getCity(), e.getState(), e.getPrice(), currentUser));
+                        currentUser.getExperiences().add(new Experience(e.getTitle(), e.getDescription(), e.getCity(), e.getState(), e.getPrice(), e.getTriptype(), currentUser));
                     }
                 }
 

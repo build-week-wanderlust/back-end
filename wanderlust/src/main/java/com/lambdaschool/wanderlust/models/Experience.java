@@ -29,6 +29,9 @@ public class Experience extends Auditable
     @Column(nullable = false)
     private double price;
 
+    @Column(nullable = false)
+    private String triptype;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid",
                 nullable = false)
@@ -40,12 +43,13 @@ public class Experience extends Auditable
 
     public Experience(String title, String description, String city, @Size(min = 2,
             max = 2,
-            message = "State is the two character state abbreviation") String state, double price, User user) {
+            message = "State is the two character state abbreviation") String state, double price, String triptype, User user) {
         this.title = title;
         this.description = description;
         this.city = city;
         this.state = state;
         this.price = price;
+        this.triptype = triptype;
         this.user = user;
     }
 
@@ -95,6 +99,14 @@ public class Experience extends Auditable
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getTriptype() {
+        return triptype;
+    }
+
+    public void setTriptype(String triptype) {
+        this.triptype = triptype;
     }
 
     public User getUser() {
