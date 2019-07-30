@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,14 @@ public class UserServiceImpl implements UserDetailsService, UserService
         List<User> list = new ArrayList<>();
         userrepos.findAll().iterator().forEachRemaining(list::add);
         return list;
+    }
+
+    public User findUserByName(String username) {
+        User user = userrepos.findByUsername(username);
+        if (user == null) {
+            throw new EntityNotFoundException("User could not be found");
+        }
+        return user;
     }
 
     @Override
