@@ -2,6 +2,7 @@ package com.lambdaschool.wanderlust.controllers;
 
 import com.lambdaschool.wanderlust.models.User;
 import com.lambdaschool.wanderlust.services.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,14 @@ public class UserController
         return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Return current user", response = User.class)
+    @GetMapping(value = "/currentuser",
+            produces = {"application/json"})
+    @ResponseBody
+    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+        User u = userService.findUserByName(authentication.getName());
+        return new ResponseEntity<>(u, HttpStatus.OK);
+    }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(value = "/user",
