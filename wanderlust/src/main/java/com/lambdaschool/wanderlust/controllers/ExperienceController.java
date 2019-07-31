@@ -3,9 +3,7 @@ package com.lambdaschool.wanderlust.controllers;
 import com.lambdaschool.wanderlust.models.ErrorDetail;
 import com.lambdaschool.wanderlust.models.Experience;
 import com.lambdaschool.wanderlust.services.ExperienceService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +33,20 @@ public class ExperienceController {
 
     // http://localhost:2019/experiences/experiences/?page=0&size=5
     // http://localhost:2019/experiences/experiences/?sort=state
+
+    @ApiOperation(value = "Returns all Experiences with Paging Ability",
+            responseContainer = "List")
+    @ApiImplicitParams({@ApiImplicitParam(name = "page",
+            dataType = "integer",
+            paramType = "query",
+            value = "Results page you want to retrieve (0..N)"), @ApiImplicitParam(name = "size",
+            dataType = "integer",
+            paramType = "query",
+            value = "Number of records per page."), @ApiImplicitParam(name = "sort",
+            allowMultiple = true,
+            dataType = "string",
+            paramType = "query",
+            value = "Sorting criteria in the format: property(,asc|desc). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
     @GetMapping(value = "/experiences",
             produces = {"application/json"})
     public ResponseEntity<?> listAllExperiences(
@@ -48,6 +60,7 @@ public class ExperienceController {
     }
 
     // get all experiences
+    @ApiOperation(value = "Retrieves all experiences without paging and sorting enabled", responseContainer = "List")
     @GetMapping(value = "/allexperiences")
     public ResponseEntity<?> reallyListAllExperiences() {
 
@@ -56,9 +69,17 @@ public class ExperienceController {
     }
 
 
+    @ApiOperation(value = "Retrieves an experience associated with the experience ID",
+            response = Experience.class)
+    @ApiResponses(value = {@ApiResponse(code = 201,
+            message = "Experience Found",
+            response = Experience.class), @ApiResponse(code = 404,
+            message = "Experience Not Found",
+            response = ErrorDetail.class)})
     @GetMapping(value = "/experiences/{experienceId}",
             produces = {"application/json"})
     public ResponseEntity<?> getExperience(HttpServletRequest request,
+                                           @ApiParam(value = "Experience ID", required = true, example = "1")
                                            @PathVariable
                                                    Long experienceId) {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
@@ -68,9 +89,11 @@ public class ExperienceController {
     }
 
 
+    @ApiOperation(value = "Find Experiences by the Username", responseContainer = "List")
     @GetMapping(value = "/username/{userName}",
             produces = {"application/json"})
     public ResponseEntity<?> findExperienceByUserName(HttpServletRequest request,
+                                                      @ApiParam(value = "Username", required = true, example = "Andrew")
                                                       @PathVariable
                                                               String userName) {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
@@ -80,8 +103,14 @@ public class ExperienceController {
     }
 
 
+    @ApiOperation(value = "Creates a new Experience", notes = "The newly created experience ID will be sent in the location header", response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Experience Created", response = void.class),
+            @ApiResponse(code = 500, message = "Error Creating Experience", response = ErrorDetail.class)
+    })
     @PostMapping(value = "/experience")
     public ResponseEntity<?> addNewExperience(HttpServletRequest request, @Valid
+    // No swagger documentation for request body, conflict with Spring Framework
     @RequestBody
             Experience newExperience) throws URISyntaxException {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
@@ -115,8 +144,10 @@ public class ExperienceController {
     }
 
 
+    @ApiOperation(value = "Delete experience by its ID")
     @DeleteMapping("/experience/{id}")
     public ResponseEntity<?> deleteExperienceById(HttpServletRequest request,
+                                                  @ApiParam(value = "Experience ID", required = true, example = "1")
                                                   @PathVariable
                                                           long id) {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
