@@ -23,6 +23,7 @@
     "city": "San Francisco",
     "state": "CA",
     "price": 135.0,
+    "triptype": "Professional",
     "user": {
       "userid": 5,
       "username": "andrew",
@@ -57,6 +58,77 @@
     "city": "San Francisco",
     "state": "CA",
     "price": 460.0,
+    "triptype": "Private",
+    "user": {
+      "userid": 5,
+      "username": "andrew",
+      "userRoles": [
+        {
+          "role": {
+            "roleid": 3,
+            "name": "data"
+          }
+        },
+        {
+          "role": {
+            "roleid": 2,
+            "name": "user"
+          }
+        }
+      ],
+      "authority": [
+        {
+          "authority": "ROLE_DATA"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ]
+    }
+  },
+  {
+    "experienceid": 8,
+    "title": "Alaska Seaplane Tour",
+    "description": "Departing from Ketchikan in our beautiful seaplane, our tour will take us through the Misty Fjords National Monument and north to the prehistoric land of the Alaska Glacier.",
+    "city": "Ketchikan",
+    "state": "AK",
+    "price": 550.0,
+    "triptype": "Professional",
+    "user": {
+      "userid": 5,
+      "username": "andrew",
+      "userRoles": [
+        {
+          "role": {
+            "roleid": 3,
+            "name": "data"
+          }
+        },
+        {
+          "role": {
+            "roleid": 2,
+            "name": "user"
+          }
+        }
+      ],
+      "authority": [
+        {
+          "authority": "ROLE_DATA"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ]
+    }
+  },
+  {
+    "experienceid": 9,
+    "title": "Ketchikan Shore Excursion: Zodiac Boat Wilderness Adventure",
+    "description": "Leave your cruise ship behind for a few hours and steer a Zodiac boat in the waters of the Alaskan wilderness. This small-group guided shore excursion from Ketchikan is limited to just four people, and everyone takes a turn at the wheel. Cruise through rain-forest islands, into remote bays and inlets, and spot wildlife including eagles, seals, whales and bears. Enjoy a beachside snack and a boatman certificate to take home as a souvenir. Round-trip port transport is included.",
+    "city": "Ketchikan",
+    "state": "AK",
+    "price": 179.0,
+    "triptype": "Professional",
     "user": {
       "userid": 5,
       "username": "andrew",
