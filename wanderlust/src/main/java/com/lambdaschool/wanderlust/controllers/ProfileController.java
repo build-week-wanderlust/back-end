@@ -5,10 +5,10 @@ import com.lambdaschool.wanderlust.models.Profile;
 import com.lambdaschool.wanderlust.models.User;
 import com.lambdaschool.wanderlust.services.ProfileService;
 import com.lambdaschool.wanderlust.services.UserService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -37,33 +37,10 @@ public class ProfileController {
     @GetMapping(value = "/allprofiles",
             produces = {"application/json"})
     public ResponseEntity<?> getListOfAllProfiles() {
-        ArrayList<Profile> myProfile = profileService.findAll(Pageable.unpaged());
+        ArrayList<Profile> myProfile = profileService.findAll();
         return new ResponseEntity<>(myProfile, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Returns all Profiles with Paging and Sorting",
-            response = Profile.class,
-            responseContainer = "List")
-    @ApiImplicitParams({@ApiImplicitParam(name = "page",
-            dataType = "integer",
-            paramType = "query",
-            value = "Results page you want to retrieve (0..N)"), @ApiImplicitParam(name = "size",
-            dataType = "integer",
-            paramType = "query",
-            value = "Number of records per page."), @ApiImplicitParam(name = "sort",
-            allowMultiple = true,
-            dataType = "string",
-            paramType = "query",
-            value = "Sorting criteria in the format: property(,asc|desc). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
-    @GetMapping(value = "/profiles",
-            produces = {"application/json"})
-    public ResponseEntity<?> getListOfProfiles(
-            @PageableDefault(page = 0,
-                    size = 5)
-                    Pageable pageable) {
-        ArrayList<Profile> myProfiles = profileService.findAll(pageable);
-        return new ResponseEntity<>(myProfiles, HttpStatus.OK);
-    }
 
     @ApiOperation(value = "Retrieves a Profile associated with the userid.",
             response = Profile.class)
@@ -81,15 +58,6 @@ public class ProfileController {
         return new ResponseEntity<>(p, HttpStatus.OK);
     }
 
-    // TODO
-    @GetMapping(value = "/{userid}/matches",
-            produces = {"application/json"})
-    public ResponseEntity<?> getListOfMatchesForUserByUserId(
-            @PathVariable
-                    long userid) {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @ApiOperation(value = "Creates a new Profile.",
             notes = "",
             response = void.class)
@@ -99,7 +67,8 @@ public class ProfileController {
             message = "Error Creating Profile",
             response = ErrorDetail.class)})
     @PostMapping(value = "/profile",
-            produces = {"application/json"})
+            produces = {"application/json"},
+            consumes = {"application/json"})
     public ResponseEntity<?> createProfile(@Valid Authentication authentication,
                                            @RequestBody
                                                    Profile profile) throws URISyntaxException {

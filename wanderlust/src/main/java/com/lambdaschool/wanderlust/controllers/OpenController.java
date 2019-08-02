@@ -22,8 +22,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 @RestController
-public class OpenController
-{
+public class OpenController {
     private static final Logger logger = LoggerFactory.getLogger(RolesController.class);
 
     @Autowired
@@ -33,12 +32,11 @@ public class OpenController
     private RoleService roleService;
 
     @PostMapping(value = "/createnewuser",
-                 consumes = {"application/json"},
-                 produces = {"application/json"})
+            consumes = {"application/json"},
+            produces = {"application/json"})
     public ResponseEntity<?> addNewUser(HttpServletRequest request, @Valid
     @RequestBody
-            User newuser) throws URISyntaxException
-    {
+            User newuser) throws URISyntaxException {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
 
         ArrayList<UserRoles> newRoles = new ArrayList<>();

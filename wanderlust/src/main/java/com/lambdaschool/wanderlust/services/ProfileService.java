@@ -11,8 +11,6 @@ import java.util.ArrayList;
  */
 public interface ProfileService {
 
-    ArrayList<Profile> findAll(Pageable pageable);
-
     ArrayList<Profile> findAll();
 
     Profile findProfileById(long userid);

@@ -26,13 +26,6 @@ public class ProfileServiceImpl implements ProfileService {
     private UserRepository userrepos;
 
     @Override
-    public ArrayList<Profile> findAll(Pageable pageable) {
-        ArrayList<Profile> list = new ArrayList<>();
-        profilerepos.findAll(pageable).iterator().forEachRemaining(list::add);
-        return list;
-    }
-
-    @Override
     public ArrayList<Profile> findAll() {
         ArrayList<Profile> list = new ArrayList<>();
         profilerepos.findAll().iterator().forEachRemaining(list::add);

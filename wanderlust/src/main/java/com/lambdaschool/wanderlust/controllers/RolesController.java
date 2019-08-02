@@ -21,16 +21,14 @@ import java.util.List;
 @ApiIgnore
 @RestController
 @RequestMapping("/roles")
-public class RolesController
-{
+public class RolesController {
     private static final Logger logger = LoggerFactory.getLogger(RolesController.class);
     @Autowired
     RoleService roleService;
 
     @GetMapping(value = "/roles",
-                produces = {"application/json"})
-    public ResponseEntity<?> listRoles(HttpServletRequest request)
-    {
+            produces = {"application/json"})
+    public ResponseEntity<?> listRoles(HttpServletRequest request) {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
 
         List<Role> allRoles = roleService.findAll();
@@ -39,11 +37,10 @@ public class RolesController
 
 
     @GetMapping(value = "/role/{roleId}",
-                produces = {"application/json"})
+            produces = {"application/json"})
     public ResponseEntity<?> getRole(HttpServletRequest request,
                                      @PathVariable
-                                             Long roleId)
-    {
+                                             Long roleId) {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
 
         Role r = roleService.findRoleById(roleId);
@@ -54,8 +51,7 @@ public class RolesController
     @PostMapping(value = "/role")
     public ResponseEntity<?> addNewRole(HttpServletRequest request, @Valid
     @RequestBody
-            Role newRole) throws URISyntaxException
-    {
+            Role newRole) throws URISyntaxException {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
 
         newRole = roleService.save(newRole);
@@ -71,8 +67,7 @@ public class RolesController
     @DeleteMapping("/role/{id}")
     public ResponseEntity<?> deleteRoleById(HttpServletRequest request,
                                             @PathVariable
-                                                    long id)
-    {
+                                                    long id) {
         logger.trace(request.getMethod().toUpperCase() + " " + request.getRequestURI() + " accessed");
 
         roleService.delete(id);
